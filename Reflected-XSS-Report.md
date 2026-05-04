@@ -46,5 +46,6 @@ A reflected Cross-Site Scripting (XSS) vulnerability was identified in the searc
 
 ## 📸 Proof of Concept
 
-*(Add safe screenshots / description — avoid sensitive info)*
+<img width="1366" height="768" alt="Screenshot (12)" src="https://github.com/user-attachments/assets/828342ae-f876-4f13-a153-744b3bcfc96c" />
+
 
