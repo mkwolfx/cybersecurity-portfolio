@@ -1,47 +1,80 @@
-# ⚡ Reflected XSS Vulnerability Report
+## 🧪 Detailed Exploitation Steps (Reflected XSS)
 
-## 📌 Overview
+1. **Initial Testing**
 
-A reflected Cross-Site Scripting (XSS) vulnerability was identified in the search functionality due to improper input sanitization.
+   * Tested the search functionality for input reflection
+   * Observed that user input was reflected in the HTML response inside an attribute value
 
----
+   Example context:
 
-## 🎯 Vulnerability Type
-
-* Reflected XSS
-
----
-
-## 🧪 Steps to Reproduce
-
-1. Navigate to search functionality
-2. Enter crafted payload in input field
-3. Observe input reflected in HTML response
-4. Break out of attribute context
-5. Inject JavaScript payload
+   ```html
+   <input value="USER_INPUT">
+   ```
 
 ---
 
-## ⚠️ Impact
+2. **Understanding Context (Context & Grammar)**
 
-* Execution of arbitrary JavaScript
-* Session hijacking possibilities
-* User impersonation
-
----
-
-## 🧰 Tools Used
-
-* Burp Suite
-* Browser
+   * The payload was reflected inside an **HTML attribute context**
+   * In this context, direct script injection is not possible
+   * To execute JavaScript, it is necessary to **break out of the attribute value**
 
 ---
 
-## 🛡️ Recommendation
+3. **Breaking Out of Attribute Context**
 
-* Proper input validation and output encoding
-* Use Content Security Policy (CSP)
+   * Used a double quote (`"`) to terminate the existing attribute value
+   * Used `>` to close the HTML tag
 
+   This allows injection of a new HTML element
+
+---
+
+4. **Payload Construction**
+
+   Payload used:
+
+   ```html
+   "><img src=x onerror="alert(1)">
+   ```
+
+   **Breakdown:**
+
+   * `"` → Closes the attribute value
+   * `>` → Closes the current HTML tag
+   * `<img` → Injects a new HTML element
+   * `src=x` → Invalid image source to trigger error
+   * `onerror=` → Event handler that executes JavaScript
+   * `alert(1)` → JavaScript execution (proof of concept)
+
+---
+
+5. **Execution**
+
+   * When the page loads, the injected `<img>` fails to load
+   * The `onerror` event is triggered
+   * JavaScript executes in the victim’s browser
+
+---
+
+6. **Advanced Payload Testing**
+
+   Additional payloads tested:
+
+   ```html
+   "><img src=x onerror="alert(document.cookie)">
+   "><iframe src="javascript:alert(1)"></iframe>
+   ```
+
+   * Demonstrates ability to execute arbitrary JavaScript
+   * Shows potential for session-related attacks
+
+---
+
+7. **Result**
+
+   * Successful execution of JavaScript in browser
+   * Confirms presence of **Reflected XSS vulnerability**
 ---
 
 ## 📸 Proof of Concept
