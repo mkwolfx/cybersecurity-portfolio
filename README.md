@@ -17,8 +17,8 @@ Aspiring penetration tester with hands-on experience in vulnerability assessment
 
 ## 🛠 Tools
 
-Nmap | Burp Suite | Wireshark | Metasploit
+Nmap | Burp Suite | Wireshark | Metasploit |caido
 
 ## 📫 Contact
 
-[Your Email] | [LinkedIn]
+[secmkiran@gmail.com] | [LinkedIn](https://www.linkedin.com/in/mkiranreddy-mk/]
